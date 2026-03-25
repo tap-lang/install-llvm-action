@@ -20,9 +20,8 @@ async function run() {
     let executableExt = '';
 
     if (os === 'linux') {
-      const ubuntuVersion = 'ubuntu-22.04';
-      downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/clang+llvm-${version}-${arch}-linux-gnu-${ubuntuVersion}.tar.xz`;
-      extractDir = `clang+llvm-${version}-${arch}-linux-gnu-${ubuntuVersion}`;
+      downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/LLVM-${version}-Linux-X64.tar.xz`;
+      extractDir = `LLVM-${version}-Linux-X64`;
     } else if (os === 'macos') {
       const darwinVersion = 'darwin';
       downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/clang+llvm-${version}-${arch}-apple-${darwinVersion}.tar.xz`;
