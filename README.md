@@ -13,7 +13,7 @@ steps:
   - name: Install LLVM
     uses: tap-lang/install-llvm-action@v1
     with:
-      version: '18.1.8'
+      version: '21.1.8'
 ```
 
 ### Advanced Usage
@@ -23,7 +23,7 @@ steps:
   - name: Install LLVM with specific components
     uses: tap-lang/install-llvm-action@v1
     with:
-      version: '18.1.8'
+      version: '21.1.8'
       arch: 'x86_64'
       os: 'linux'
       components: 'clang,lld,compiler-rt'

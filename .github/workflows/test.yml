@@ -17,7 +17,7 @@ jobs:
       - name: Test install LLVM
         uses: ./
         with:
-          version: '18.1.8'
+          version: '21.1.8'
       - name: Verify installation
         run: |
           clang --version
@@ -32,7 +32,7 @@ jobs:
       - name: Test install LLVM
         uses: ./
         with:
-          version: '18.1.8'
+          version: '21.1.8'
       - name: Verify installation
         run: |
           clang --version
@@ -47,7 +47,7 @@ jobs:
       - name: Test install LLVM
         uses: ./
         with:
-          version: '18.1.8'
+          version: '21.1.8'
       - name: Verify installation
         run: |
           clang --version
