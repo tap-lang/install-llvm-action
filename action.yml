@@ -1,0 +1,28 @@
+name: 'Install LLVM and Clang'
+description: 'Install LLVM and Clang with specified version'
+author: 'Tap Lang Team'
+
+inputs:
+  version:
+    description: 'LLVM version to install (e.g., 18, 17.0.6)'
+    required: true
+  arch:
+    description: 'Architecture (e.g., x86_64, arm64)'
+    required: false
+    default: 'x86_64'
+  os:
+    description: 'Operating system (e.g., linux, macos, windows)'
+    required: false
+    default: '${{ runner.os }}'
+  components:
+    description: 'Additional LLVM components to install (e.g., clang, lld, compiler-rt)'
+    required: false
+    default: 'clang'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
+branding:
+  icon: 'code'
+  color: 'blue'

@@ -1,0 +1,54 @@
+name: Test Install LLVM Action
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build action
+        run: npm install && npm run build
+      - name: Test install LLVM
+        uses: ./
+        with:
+          version: '18.1.8'
+      - name: Verify installation
+        run: |
+          clang --version
+          llvm-config --version
+
+  test-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build action
+        run: npm install && npm run build
+      - name: Test install LLVM
+        uses: ./
+        with:
+          version: '18.1.8'
+      - name: Verify installation
+        run: |
+          clang --version
+          llvm-config --version
+
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build action
+        run: npm install && npm run build
+      - name: Test install LLVM
+        uses: ./
+        with:
+          version: '18.1.8'
+      - name: Verify installation
+        run: |
+          clang --version
+          llvm-config --version
