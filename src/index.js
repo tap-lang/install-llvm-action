@@ -59,7 +59,11 @@ async function run() {
     // 验证安装
     core.info('Verifying LLVM installation...');
     await exec.exec('clang', ['--version']);
-    await exec.exec('llvm-config', ['--version']);
+    
+    // 只在非 Windows 平台上运行 llvm-config
+    if (os !== 'windows') {
+      await exec.exec('llvm-config', ['--version']);
+    }
 
     core.info(`LLVM ${version} installed successfully!`);
   } catch (error) {
