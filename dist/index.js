@@ -27580,9 +27580,7 @@ async function run() {
       downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/LLVM-${version}-Linux-X64.tar.xz`;
       extractDir = `LLVM-${version}-Linux-X64`;
     } else if (os === 'macos') {
-      const macosArch = arch === 'arm64' ? 'ARM64' : 'X64';
-      downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/LLVM-${version}-macOS-${macosArch}.tar.xz`;
-      extractDir = `LLVM-${version}-macOS-${macosArch}`;
+      // macOS 使用 Homebrew 安装
     } else if (os === 'windows') {
       downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/LLVM-${version}-win64.exe`;
       executableExt = '.exe';
@@ -27590,32 +27588,45 @@ async function run() {
       throw new Error(`Unsupported operating system: ${os}`);
     }
 
-    // 下载 LLVM
-    core.info(`Downloading LLVM from ${downloadUrl}...`);
-    // const downloadPath = path.join(process.env.RUNNER_TEMP, `llvm${executableExt}`);
-    let downloadPath;
-    if (os === 'windows') {
-      downloadPath = path.join(process.env.RUNNER_TEMP, `llvm${executableExt}`);
-    } else {
-      downloadPath = path.join(process.env.RUNNER_TEMP, `llvm.tar.xz`);
-    }
-    await exec.exec('curl', ['-L', '-o', downloadPath, downloadUrl]);
-
     // 安装 LLVM
-    if (os === 'windows') {
-      // Windows 安装
-      core.info('Installing LLVM on Windows...');
-      await exec.exec(downloadPath, ['/S']);
-    } else {
-      // Linux/macOS 安装
-      core.info('Extracting LLVM...');
-      const extractPath = path.join(process.env.RUNNER_TEMP, extractDir);
-      await exec.exec('tar', ['-xJf', downloadPath, '-C', process.env.RUNNER_TEMP]);
-
+    if (os === 'macos') {
+      // macOS 使用 Homebrew 安装
+      core.info('Installing LLVM on macOS using Homebrew...');
+      await exec.exec('brew', ['install', `llvm@${version}`]);
+      
       // 设置环境变量
-      const binPath = path.join(extractPath, 'bin');
+      const llvmPath = await exec.getExecOutput('brew', ['--prefix', `llvm@${version}`]);
+      const llvmHome = llvmPath.stdout.trim();
+      const binPath = path.join(llvmHome, 'bin');
       core.addPath(binPath);
-      core.exportVariable('LLVM_HOME', extractPath);
+      core.exportVariable('LLVM_HOME', llvmHome);
+    } else {
+      // 下载 LLVM
+      core.info(`Downloading LLVM from ${downloadUrl}...`);
+      let downloadPath;
+      if (os === 'windows') {
+        downloadPath = path.join(process.env.RUNNER_TEMP, `llvm${executableExt}`);
+      } else {
+        downloadPath = path.join(process.env.RUNNER_TEMP, `llvm.tar.xz`);
+      }
+      await exec.exec('curl', ['-L', '-o', downloadPath, downloadUrl]);
+
+      // 安装 LLVM
+      if (os === 'windows') {
+        // Windows 安装
+        core.info('Installing LLVM on Windows...');
+        await exec.exec(downloadPath, ['/S']);
+      } else {
+        // Linux 安装
+        core.info('Extracting LLVM...');
+        const extractPath = path.join(process.env.RUNNER_TEMP, extractDir);
+        await exec.exec('tar', ['-xJf', downloadPath, '-C', process.env.RUNNER_TEMP]);
+
+        // 设置环境变量
+        const binPath = path.join(extractPath, 'bin');
+        core.addPath(binPath);
+        core.exportVariable('LLVM_HOME', extractPath);
+      }
     }
 
     // 验证安装
