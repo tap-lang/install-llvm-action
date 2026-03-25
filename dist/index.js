@@ -27580,9 +27580,9 @@ async function run() {
       downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/LLVM-${version}-Linux-X64.tar.xz`;
       extractDir = `LLVM-${version}-Linux-X64`;
     } else if (os === 'macos') {
-      const darwinVersion = 'darwin';
-      downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/clang+llvm-${version}-${arch}-apple-${darwinVersion}.tar.xz`;
-      extractDir = `clang+llvm-${version}-${arch}-apple-${darwinVersion}`;
+      const macosArch = arch === 'arm64' ? 'ARM64' : 'X64';
+      downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/LLVM-${version}-macOS-${macosArch}.tar.xz`;
+      extractDir = `LLVM-${version}-macOS-${macosArch}`;
     } else if (os === 'windows') {
       downloadUrl = `https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/LLVM-${version}-win64.exe`;
       executableExt = '.exe';
