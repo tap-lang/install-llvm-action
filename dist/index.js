@@ -27592,7 +27592,13 @@ async function run() {
 
     // 下载 LLVM
     core.info(`Downloading LLVM from ${downloadUrl}...`);
-    const downloadPath = path.join(process.env.RUNNER_TEMP, `llvm${executableExt}`);
+    // const downloadPath = path.join(process.env.RUNNER_TEMP, `llvm${executableExt}`);
+    let downloadPath;
+    if (os === 'windows') {
+      downloadPath = path.join(process.env.RUNNER_TEMP, `llvm${executableExt}`);
+    } else {
+      downloadPath = path.join(process.env.RUNNER_TEMP, `llvm.tar.xz`);
+    }
     await exec.exec('curl', ['-L', '-o', downloadPath, downloadUrl]);
 
     // 安装 LLVM
