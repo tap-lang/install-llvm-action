@@ -2,6 +2,8 @@
 
 A GitHub Action to install LLVM and Clang with specified version.
 
+All code written by AI.
+
 ## Usage
 
 ### Basic Usage
