@@ -27566,7 +27566,7 @@ async function run() {
     // 读取输入参数
     const version = core.getInput('version');
     const arch = core.getInput('arch');
-    const os = core.getInput('os');
+    const os = core.getInput('os').toLowerCase();
     const components = core.getInput('components');
 
     core.info(`Installing LLVM ${version} for ${os}-${arch}...`);
