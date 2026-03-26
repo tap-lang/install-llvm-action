@@ -27592,13 +27592,13 @@ async function run() {
     if (os === 'macos') {
       // macOS 使用 Homebrew 安装
       // macOS 下 version 格式化为大版本号
-      const version = version.split('.')[0];
+      const majorVersion = version.split('.')[0];
 
       core.info('Installing LLVM on macOS using Homebrew...');
-      await exec.exec('brew', ['install', `llvm@${version}`]);
+      await exec.exec('brew', ['install', `llvm@${majorVersion}`]);
       
       // 设置环境变量
-      const llvmPath = await exec.getExecOutput('brew', ['--prefix', `llvm@${version}`]);
+      const llvmPath = await exec.getExecOutput('brew', ['--prefix', `llvm@${majorVersion}`]);
       const llvmHome = llvmPath.stdout.trim();
       const binPath = path.join(llvmHome, 'bin');
       core.addPath(binPath);
