@@ -27591,6 +27591,9 @@ async function run() {
     // 安装 LLVM
     if (os === 'macos') {
       // macOS 使用 Homebrew 安装
+      // macOS 下 version 格式化为大版本号
+      const version = version.split('.')[0];
+
       core.info('Installing LLVM on macOS using Homebrew...');
       await exec.exec('brew', ['install', `llvm@${version}`]);
       
